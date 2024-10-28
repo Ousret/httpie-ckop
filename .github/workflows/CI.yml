@@ -16,7 +16,7 @@ jobs:
           - "pie.dev/get"
           - "httpbingo.org/get"
 
-    name: ${{ fromJson('{"macos-latest":"macOS","windows-latest":"Windows","ubuntu-latest":"Ubuntu"}')[matrix.os] }} ${{ matrix.target }} ${{ fromJson('{"httpie":"HTTPie v3","git+https://github.com/Ousret/HTTPie.git@feature-tryout-niquests":"HTTPie v4"}')[matrix.package] }}
+    name: ${{ fromJson('{"macos-latest":"macOS","windows-latest":"Windows","ubuntu-latest":"Ubuntu"}')[matrix.os] }} ${{ fromJson('{"httpie":"HTTPie v3","git+https://github.com/Ousret/HTTPie.git@feature-tryout-niquests":"HTTPie v4"}')[matrix.package] }} ${{ fromJson('{"pie.dev/get":"pie.dev","httpbingo.org/get":"httpbingo.org"}')[matrix.target] }}
     runs-on: ${{ matrix.os }}
 
     steps:
@@ -28,17 +28,13 @@ jobs:
       - name: "Setup HTTPie CLI"
         run: pip install "${{ matrix.package }}"
 
-      - name: "Install time for Windows"
-        if: matrix.os == 'windows-latest'
-        run: msiexec.exe /qb /i https://github.com/chemodax/pbench/releases/download/0.7.0/pbench-x64.msi
-
       - name: "Measure (Unix, Linux)"
         if: matrix.os != 'windows-latest'
         run: time https -q ${{ matrix.target }}
 
       - name: "Measure (NT)"
         if: matrix.os == 'windows-latest'
-        run: pbench https -q ${{ matrix.target }}
+        run: https --meta ${{ matrix.target }}
 
       - name: "Measure (Unix, Linux)"
         if: matrix.os != 'windows-latest'
