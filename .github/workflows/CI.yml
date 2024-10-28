@@ -1,0 +1,89 @@
+on: push
+
+jobs:
+
+  legacy:
+    strategy:
+      matrix:
+        os:
+          - windows-latest
+          - macos-latest
+          - ubuntu-latest
+        package:
+          - httpie
+          - "git+https://github.com/Ousret/HTTPie.git@feature-tryout-niquests"
+        target:
+          - "pie.dev/get"
+          - "httpbingo.org/get"
+
+    name: ${{ fromJson('{"macos-latest":"macOS","windows-latest":"Windows","ubuntu-latest":"Ubuntu"}')[matrix.os] }} ${{ matrix.target }} ${{ fromJson('{"httpie":"HTTPie v3","git+https://github.com/Ousret/HTTPie.git@feature-tryout-niquests":"HTTPie v4"}')[matrix.package] }}
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: "Setup Python"
+        uses: "actions/setup-python@v5"
+        with:
+          python-version: "3.13"
+
+      - name: "Setup HTTPie CLI"
+        run: pip install "${{ matrix.package }}"
+
+      - name: "Install time for Windows"
+        if: matrix.os == 'windows-latest'
+        run: msiexec.exe /qb /i https://github.com/chemodax/pbench/releases/download/0.7.0/pbench-x64.msi
+
+      - name: "Measure (Unix, Linux)"
+        if: matrix.os != 'windows-latest'
+        run: time https -q ${{ matrix.target }}
+
+      - name: "Measure (NT)"
+        if: matrix.os == 'windows-latest'
+        run: pbench https -q ${{ matrix.target }}
+
+      - name: "Measure (Unix, Linux)"
+        if: matrix.os != 'windows-latest'
+        run: time https -q ${{ matrix.target }}
+
+      - name: "Measure (NT)"
+        if: matrix.os == 'windows-latest'
+        run: pbench https -q ${{ matrix.target }}
+
+      - name: "Measure (Unix, Linux)"
+        if: matrix.os != 'windows-latest'
+        run: time https -q ${{ matrix.target }}
+
+      - name: "Measure (NT)"
+        if: matrix.os == 'windows-latest'
+        run: pbench https -q ${{ matrix.target }}
+
+      - name: "Measure (Unix, Linux)"
+        if: matrix.os != 'windows-latest'
+        run: time https -q ${{ matrix.target }}
+
+      - name: "Measure (NT)"
+        if: matrix.os == 'windows-latest'
+        run: pbench https -q ${{ matrix.target }}
+
+      - name: "Measure (Unix, Linux)"
+        if: matrix.os != 'windows-latest'
+        run: time https -q ${{ matrix.target }}
+
+      - name: "Measure (NT)"
+        if: matrix.os == 'windows-latest'
+        run: pbench https -q ${{ matrix.target }}
+
+      - name: "Measure (Unix, Linux)"
+        if: matrix.os != 'windows-latest'
+        run: time https -q ${{ matrix.target }}
+
+      - name: "Measure (NT)"
+        if: matrix.os == 'windows-latest'
+        run: pbench https -q ${{ matrix.target }}
+
+      - name: "Measure (Unix, Linux)"
+        if: matrix.os != 'windows-latest'
+        run: time https -q ${{ matrix.target }}
+
+      - name: "Measure (NT)"
+        if: matrix.os == 'windows-latest'
+        run: pbench https -q ${{ matrix.target }}
