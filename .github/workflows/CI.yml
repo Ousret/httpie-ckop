@@ -11,12 +11,12 @@ jobs:
           - ubuntu-latest
         package:
           - httpie
-          - "git+https://github.com/Ousret/HTTPie.git@feature-tryout-niquests"
+          - "git+https://github.com/Ousret/HTTPie.git"
         target:
           - "pie.dev/get"
           - "httpbingo.org/get"
 
-    name: ${{ fromJson('{"macos-latest":"macOS","windows-latest":"Windows","ubuntu-latest":"Ubuntu"}')[matrix.os] }} ${{ fromJson('{"httpie":"HTTPie v3","git+https://github.com/Ousret/HTTPie.git@feature-tryout-niquests":"HTTPie v4"}')[matrix.package] }} ${{ fromJson('{"pie.dev/get":"pie.dev","httpbingo.org/get":"httpbingo.org"}')[matrix.target] }}
+    name: ${{ fromJson('{"macos-latest":"macOS","windows-latest":"Windows","ubuntu-latest":"Ubuntu"}')[matrix.os] }} ${{ fromJson('{"httpie":"HTTPie v3","git+https://github.com/Ousret/HTTPie.git":"HTTPie v4"}')[matrix.package] }} ${{ fromJson('{"pie.dev/get":"pie.dev","httpbingo.org/get":"httpbingo.org"}')[matrix.target] }}
     runs-on: ${{ matrix.os }}
 
     steps:
